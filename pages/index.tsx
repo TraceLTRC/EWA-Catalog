@@ -41,8 +41,11 @@ export default function Home(props: Props) {
   return (
     <>
       <Head>
+        <title>EWA Catalog</title>
+        <meta name='application-name' content="EWA's Catalog" />
         <meta name="robots" content="noindex,nofollow" />
         <meta name="description" content="EWA's catalog website" />
+        <meta name="author" content="TraceL" />
       </Head>
       <div className='min-h-screen w-screen bg-slate-100'>
         <Header/>
