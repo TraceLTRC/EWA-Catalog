@@ -18,9 +18,10 @@ export default function ArtCard({ imgCard }: {imgCard: ImageCard}) {
                 sizes="20vw"/>
             </div>
         </div>
-        <div>
-            <p>Hello!</p>
-        </div>
+        <article className="mx-6 my-4">
+            <p className="text-xl my-2">Fandom: {imgCard.meta.join(',')}</p>
+            <p className="my-2">Artist: {imgCard.artists.join(',')}</p>
+        </article>
     </div>
     )
 }
