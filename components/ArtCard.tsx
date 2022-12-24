@@ -15,7 +15,7 @@ export default function ArtCard({ imgCard }: {imgCard: ImageCard}) {
                 {{
                     "objectFit":"contain",
                 }}
-                sizes="20vw"/>
+                sizes="310px"/>
             </div>
         </div>
         <article className="mx-6 my-4">
