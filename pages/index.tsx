@@ -1,7 +1,7 @@
 import ArtCard from '../components/ArtCard'
 import Header from '../components/Header';
 import { ImageCard, ImageCfg } from '../types/imageTypes';
-import { getDocs } from 'firebase/firestore';
+import { getDocs, limit, orderBy, query } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { imageCol, imageBucket } from '../utils/databases';
 import Head from 'next/head';
@@ -11,12 +11,13 @@ type Props = {
 }
 
 export async function getStaticProps() {
-  const docs = await getDocs(imageCol);
+  const docs = await getDocs(query(imageCol));
   const images: Array<ImageCard> = []
 
   for (const doc of docs.docs) {
     const data = doc.data()
     const imgLink = await getDownloadURL(ref(imageBucket, data.blob));
+    console.log("Got download link for doc" + doc.id);
 
     images.push({
       artists: data.artists,
