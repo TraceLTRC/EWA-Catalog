@@ -14,7 +14,7 @@ export async function getStaticProps() {
   const docs = await getDocs(query(imageCol));
   const images: Array<ImageCard> = []
 
-  for (const doc of docs.docs) {
+  await Promise.all(docs.docs.map(async (doc) => {
     const data = doc.data()
     const imgLink = await getDownloadURL(ref(imageBucket, data.blob));
     console.log("Got download link for doc" + doc.id);
@@ -25,7 +25,7 @@ export async function getStaticProps() {
       meta: data.meta,
       link: imgLink,
     })
-  }
+  }))
 
   return {
     props: {
