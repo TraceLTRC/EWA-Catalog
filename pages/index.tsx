@@ -1,4 +1,5 @@
 import ArtCard from '../components/ArtCard'
+import Header from '../components/Header';
 import { ImageCard, ImageCfg } from '../types/imageTypes';
 import { getDocs } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
@@ -42,6 +43,7 @@ export default function Home(props: Props) {
         <meta name="robots" content="noindex,nofollow" />
       </Head>
       <div className='min-h-screen w-screen bg-slate-100'>
+        <Header/>
         <div className='flex flex-wrap gap-4 justify-center'>
           {images.map((imageCard, index) => <ArtCard imgCard={imageCard} key={index} />)}
         </div>
