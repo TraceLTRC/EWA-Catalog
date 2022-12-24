@@ -42,6 +42,7 @@ export default function Home(props: Props) {
     <>
       <Head>
         <meta name="robots" content="noindex,nofollow" />
+        <meta name="description" content="EWA's catalog website" />
       </Head>
       <div className='min-h-screen w-screen bg-slate-100'>
         <Header/>
