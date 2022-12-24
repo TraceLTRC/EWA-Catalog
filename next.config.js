@@ -10,7 +10,8 @@ const nextConfig = {
         pathname: '**',
       }
     ]
-  }
+  },
+  staticPageGenerationTimeout: 1000,
 }
 
 module.exports = nextConfig
