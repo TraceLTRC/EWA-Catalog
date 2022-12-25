@@ -65,7 +65,7 @@ export default function StyledFilter<T extends ReactNode>(props: Props<T>) {
 
     return (
         <Listbox value={selectedItems} onChange={setItems} multiple>
-            <Listbox.Button ref={buttonNode} className="flex flex-row items-center justify-between sm:gap-8 lg:gap-32 relative m-2 p-2 bg-stone-200 rounded-xl transition-all ease-in-out hover:shadow-inner hover:bg-stone-400">
+            <Listbox.Button ref={buttonNode} className="flex flex-row items-center justify-between md:w-36 lg:w-56 relative m-2 p-2 bg-stone-200 rounded-xl transition-all ease-in-out hover:shadow-inner hover:bg-stone-400">
                 <span className="mx-2">
                     {selectedItems.length == 0 ? `${buttonLabel}...` : `${buttonLabel} (${selectedItems.length})`}
                 </span>
