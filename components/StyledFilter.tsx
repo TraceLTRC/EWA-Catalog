@@ -1,5 +1,7 @@
+'use client';
+
 import { Listbox, Switch, Transition } from "@headlessui/react";
-import { Fragment, ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import { CheckIcon } from "@heroicons/react/24/solid"
 
@@ -45,9 +47,6 @@ export default function StyledFilter<T extends ReactNode>(props: Props<T>) {
     }
 
     const getTopLeftStyle: () => React.CSSProperties = () => {
-        const buttonMiddle = currButtonRect.left + (currButtonRect.width / 2)
-        const targetLeft = buttonMiddle;
-
         return {
             top: currButtonRect.top + currButtonRect.height - 8,
             left: currButtonRect.left - 8,
@@ -55,7 +54,7 @@ export default function StyledFilter<T extends ReactNode>(props: Props<T>) {
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setButtonRectCallback();
 
         window.addEventListener('resize', setButtonRectCallback);

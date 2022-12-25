@@ -86,42 +86,45 @@ export default function Home(props: Props) {
   const [isFilterAllChar, setFilterAllChar] = useState<boolean>(false);
   const [isFilterAllMeta, setFilterAllMeta] = useState<boolean>(false);
 
-  function filterArtists(imagesToFilter: ImageCard[]) {
-    if (artistFilter.length == 0) return imagesToFilter;
-
-    if (isFilterAllArtist) {
-      return imagesToFilter.filter((img) => arraysEqualAll(img.artists, artistFilter));
-    }  else {
-      return imagesToFilter.filter((img) => arraysEqualAny(img.artists, artistFilter))
-    }
-  }
-
-  function filterChars(imagesToFilter: ImageCard[]) {
-    if (characterFilter.length == 0) return imagesToFilter;
-
-    if (isFilterAllChar) {
-      return imagesToFilter.filter((img) => arraysEqualAll(img.characters, characterFilter));
-    }  else {
-      return imagesToFilter.filter((img) => arraysEqualAny(img.characters, characterFilter))
-    }
-  }
-
-  function filterMetas(imagesToFilter: ImageCard[]) {
-    if (metaFilter.length == 0) return imagesToFilter;
-
-    if (isFilterAllMeta) {
-      return imagesToFilter.filter((img) => arraysEqualAll(img.meta, metaFilter));
-    }  else {
-      return imagesToFilter.filter((img) => arraysEqualAny(img.meta, metaFilter))
-    }
-  }
-
   useEffect(() => {
+    console.log("start")
+    function filterArtists(imagesToFilter: ImageCard[]) {
+      if (artistFilter.length == 0) return imagesToFilter;
+  
+      if (isFilterAllArtist) {
+        return imagesToFilter.filter((img) => arraysEqualAll(img.artists, artistFilter));
+      }  else {
+        return imagesToFilter.filter((img) => arraysEqualAny(img.artists, artistFilter))
+      }
+    }
+  
+    function filterChars(imagesToFilter: ImageCard[]) {
+      if (characterFilter.length == 0) return imagesToFilter;
+  
+      if (isFilterAllChar) {
+        return imagesToFilter.filter((img) => arraysEqualAll(img.characters, characterFilter));
+      }  else {
+        return imagesToFilter.filter((img) => arraysEqualAny(img.characters, characterFilter))
+      }
+    }
+  
+    function filterMetas(imagesToFilter: ImageCard[]) {
+      if (metaFilter.length == 0) return imagesToFilter;
+  
+      if (isFilterAllMeta) {
+        return imagesToFilter.filter((img) => arraysEqualAll(img.meta, metaFilter));
+      }  else {
+        return imagesToFilter.filter((img) => arraysEqualAny(img.meta, metaFilter))
+      }
+    }
+
     const filteredArtists = filterArtists(allImages);
     const filteredChars = filterChars(filteredArtists);
     const filteredImages = filterMetas(filteredChars);
 
     setImages(filteredImages);
+
+    console.log("end")
   }, [artistFilter, characterFilter, metaFilter, isFilterAllArtist, isFilterAllChar, isFilterAllMeta])
 
   return (
