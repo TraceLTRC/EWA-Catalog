@@ -1,9 +1,9 @@
-'use client';
-
 import { Listbox, Switch, Transition } from "@headlessui/react";
 import { Fragment, ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import { CheckIcon } from "@heroicons/react/24/solid"
+
+//TODO fix warnings due to SRR-UseLayoutEffect
 
 type Props<T> = {
     selectedItems: T[];
