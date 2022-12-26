@@ -1,7 +1,5 @@
 import * as admin from "firebase-admin"
 
-console.log(admin.app.length)
-
 if (admin.app.length <= 1) {
     try {
         admin.initializeApp({
