@@ -152,7 +152,7 @@ export default function Home(props: Props) {
         setFilterAllChar={(bool) => setFilterAllChar(bool)}
         setFilterAllMeta={(bool) => setFilterAllMeta(bool)}
         />
-        <div className='flex flex-wrap gap-4 justify-center xl:mx-24 lg:mx-14 md:mx-8 mx-4'>
+        <div className='flex flex-wrap gap-4 justify-center xl:mx-24 lg:mx-14 md:mx-8 mx-4 mb-8'>
           {images.map((imageCard, index) => <ArtCard imgCard={imageCard} key={index} />)}
         </div>
       </div>

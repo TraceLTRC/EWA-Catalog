@@ -1,5 +1,6 @@
 import { FirebaseOptions, getApps, initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
+import { getPerformance } from 'firebase/performance'
 
 export default function createFirebaseApp() {
     const clientCreds: FirebaseOptions = {
@@ -15,8 +16,10 @@ export default function createFirebaseApp() {
     if (getApps().length <= 0) {
         const app = initializeApp(clientCreds);
 
+
         if (typeof window !== 'undefined') {
             getAnalytics();
+            getPerformance();
         }
 
         return app;
