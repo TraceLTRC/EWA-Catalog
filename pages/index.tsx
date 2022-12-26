@@ -7,6 +7,9 @@ import { imageCol, imageBucket } from '../utils/databases';
 import Head from 'next/head';
 import { useEffect, useMemo, useState } from 'react';
 import Filter from '../components/Filter';
+import createFirebaseApp from '../utils/firebaseClient';
+import { getPerformance } from 'firebase/performance';
+import { getAnalytics } from 'firebase/analytics';
 
 type Props = {
   allImages: Array<ImageCard>;
@@ -85,6 +88,15 @@ export default function Home(props: Props) {
   const [isFilterAllArtist, setFilterAllArtist] = useState<boolean>(false);
   const [isFilterAllChar, setFilterAllChar] = useState<boolean>(false);
   const [isFilterAllMeta, setFilterAllMeta] = useState<boolean>(false);
+
+  // Firebase stuff
+  useEffect(() => {
+    const app = createFirebaseApp();
+    const perf = getPerformance(app);
+    const analytics = getAnalytics(app);
+
+    console.log("We are logging the performance and analytics of the website! Please keep that in mind. Thank you!")
+  }, [])
 
   useEffect(() => {
     function filterArtists(imagesToFilter: ImageCard[]) {
