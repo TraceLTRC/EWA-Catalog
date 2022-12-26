@@ -47,8 +47,9 @@ export default function StyledFilter<T extends ReactNode>(props: Props<T>) {
                     top: y ?? 0,
                     left: x ?? 0,
                 }}
-                className="absolute w-72 md:w-48 lg:w-72 mt-3 m-2 z-10 shadow-inner outline outline-2 outline-stone-200 bg-white rounded-xl">
-                    <div className="flex items-center justify-center">
+                className="absolute w-72 md:w-48 lg:w-72 mt-3 m-2 z-10 shadow-inner outline outline-2 outline-stone-200 bg-white rounded-xl overflow-y-scroll h-64"
+                >
+                    <div className="flex items-center justify-center sticky top-0 bg-white">
                         <div className="text-md tracking-tight font-light">
                             Any
                         </div>

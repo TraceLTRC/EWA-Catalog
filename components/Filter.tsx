@@ -30,8 +30,8 @@ export default function Filter(props: Props) {
     } = props
 
     return (
-        <div className="flex items-center justify-center">
-            <div className="my-2 mx-12 md:mx-24 w-min shadow-2xl bg-white rounded-xl flex flex-col md:flex-row md:gap-4 justify-center">
+        <div className="flex items-center justify-center sticky top-0 z-50 drop-shadow-md">
+            <div className="mb-8 mt-4 mx-12 md:mx-24 w-min shadow-2xl bg-white rounded-xl flex flex-col md:flex-row md:gap-4 justify-center">
                 <StyledFilter allItems={allArtist} selectedItems={currArtist} setItems={setArtist} buttonLabel="Artist" anyFilter={filterAllArtist} setAnyFilter={setFilterAllArtist}/>
                 <StyledFilter allItems={allChar} selectedItems={currChar} setItems={setChar} buttonLabel="Character" anyFilter={filterAllChar} setAnyFilter={setFilterAllChar}/>
                 <StyledFilter allItems={allMeta} selectedItems={currMeta} setItems={setMeta} buttonLabel="Fandom" anyFilter={filterAllMeta} setAnyFilter={setFilterAllMeta}/>
