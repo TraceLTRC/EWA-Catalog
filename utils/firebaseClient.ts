@@ -16,14 +16,14 @@ export default function createFirebaseApp() {
 
     if (getApps().length <= 0) {
         const app = initializeApp(clientCreds);
-        const appCheck = initializeAppCheck(app, {
-            provider: new ReCaptchaV3Provider(process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY as string),
-            isTokenAutoRefreshEnabled: true,
-        })
 
         if (typeof window !== 'undefined') {
             getAnalytics();
             getPerformance();
+            const appCheck = initializeAppCheck(app, {
+                provider: new ReCaptchaV3Provider(process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY as string),
+                isTokenAutoRefreshEnabled: true,
+            })
         }
 
         return app;

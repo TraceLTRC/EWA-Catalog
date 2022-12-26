@@ -3,19 +3,58 @@ import Header from '../components/Header';
 import { ImageCard, ImageCfg } from '../types/imageTypes';
 import { getDocs, limit, orderBy, Primitive, query } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { imageCol, imageBucket } from '../utils/databases';
 import Head from 'next/head';
 import { useEffect, useMemo, useState } from 'react';
 import Filter from '../components/Filter';
 import createFirebaseApp from '../utils/firebaseClient';
 import { getPerformance } from 'firebase/performance';
 import { getAnalytics } from 'firebase/analytics';
+import admin from '../utils/firebaseAdmin';
 
 type Props = {
   allImages: Array<ImageCard>;
   allCharacters: Array<string>;
   allMetas: Array<string>;
   allArtists: Array<string>;
+}
+
+export async function getStaticProps() {
+  const imageBucket = await admin.storage().bucket();
+  const docs = await admin.firestore().collection('images').get()
+
+  const allImages: Array<ImageCard> = []
+  const characters: Set<string> = new Set();
+  const metas: Set<string> = new Set();
+  const artists: Set<string> = new Set();
+
+  await Promise.all(docs.docs.map(async (doc) => {
+    const data: ImageCfg = doc.data() as ImageCfg
+    const [imgLink] = await imageBucket.file(data.blob).getSignedUrl({
+      action: 'read',
+      expires: Date.now() + (86400 * 1000),
+    })
+
+    allImages.push({
+      artists: data.artists,
+      characters: data.characters,
+      meta: data.meta,
+      link: imgLink,
+    })
+
+    data.artists.forEach((artist) => artists.add(artist));
+    data.characters.forEach((character) => characters.add(character));
+    data.meta.forEach((meta) => metas.add(meta));
+  }))
+
+  return {
+    props: {
+      allImages: allImages,
+      allCharacters: Array.from(characters).sort(),
+      allMetas: Array.from(metas).sort(),
+      allArtists: Array.from(artists).sort(),
+    },
+    revalidate: 86400
+  }
 }
 
 function arraysEqualAll<T>(a: T[], b: T[]): boolean {
@@ -41,40 +80,6 @@ function arraysEqualAny<T extends Primitive>(a: T[], b: T[]) {
   }
 
   return false;
-}
-
-export async function getStaticProps() {
-  const docs = await getDocs(query(imageCol));
-  const allImages: Array<ImageCard> = []
-  const characters: Set<string> = new Set();
-  const metas: Set<string> = new Set();
-  const artists: Set<string> = new Set();
-
-  await Promise.all(docs.docs.map(async (doc) => {
-    const data = doc.data()
-    const imgLink = await getDownloadURL(ref(imageBucket, data.blob));
-
-    allImages.push({
-      artists: data.artists,
-      characters: data.characters,
-      meta: data.meta,
-      link: imgLink,
-    })
-
-    data.artists.forEach((artist) => artists.add(artist));
-    data.characters.forEach((character) => characters.add(character));
-    data.meta.forEach((meta) => metas.add(meta));
-  }))
-
-  return {
-    props: {
-      allImages: allImages,
-      allCharacters: Array.from(characters).sort(),
-      allMetas: Array.from(metas).sort(),
-      allArtists: Array.from(artists).sort(),
-    },
-    revalidate: 86400
-  }
 }
 
 export default function Home(props: Props) {
