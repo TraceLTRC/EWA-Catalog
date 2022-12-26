@@ -87,7 +87,6 @@ export default function Home(props: Props) {
   const [isFilterAllMeta, setFilterAllMeta] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("start")
     function filterArtists(imagesToFilter: ImageCard[]) {
       if (artistFilter.length == 0) return imagesToFilter;
   
@@ -123,8 +122,6 @@ export default function Home(props: Props) {
     const filteredImages = filterMetas(filteredChars);
 
     setImages(filteredImages);
-
-    console.log("end")
   }, [artistFilter, characterFilter, metaFilter, isFilterAllArtist, isFilterAllChar, isFilterAllMeta])
 
   return (
