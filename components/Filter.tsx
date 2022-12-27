@@ -29,7 +29,7 @@ const filter = forwardRef<HTMLDivElement, Props>((props, ref) => {
     } = props
 
     return (
-        <div className="flex items-center justify-center z-50 drop-shadow-sm md:sticky md:top-0">
+        <div className="relative flex items-center justify-center z-50 drop-shadow-sm md:sticky md:top-0">
             <div ref={ref} className=" mb-8 mt-4 mx-12 md:mx-24 w-min shadow-2xl bg-white rounded-xl flex flex-col md:flex-row md:gap-4 justify-center">
                 <StyledFilter allItems={allArtist} selectedItems={currArtist} setItems={setArtist} buttonLabel="Artist" anyFilter={filterAllArtist} setAnyFilter={setFilterAllArtist}/>
                 <StyledFilter allItems={allChar} selectedItems={currChar} setItems={setChar} buttonLabel="Character" anyFilter={filterAllChar} setAnyFilter={setFilterAllChar}/>
