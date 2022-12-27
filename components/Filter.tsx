@@ -38,5 +38,6 @@ const filter = forwardRef<HTMLDivElement, Props>((props, ref) => {
         </div>
     )
 })
+filter.displayName = "Filter";
 
 export default filter
