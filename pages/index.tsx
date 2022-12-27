@@ -8,7 +8,6 @@ import Filter from '../components/Filter';
 import createFirebaseApp from '../utils/firebaseClient';
 import admin from '../utils/firebaseAdmin';
 import useOnScreen from '../hooks/useOnScreen';
-import { ArrowLongUpIcon } from '@heroicons/react/24/solid'
 import { ArrowUpIcon } from '@heroicons/react/20/solid';
 
 type Props = {
@@ -96,7 +95,7 @@ export default function Home(props: Props) {
   const [isFilterAllChar, setFilterAllChar] = useState<boolean>(false);
   const [isFilterAllMeta, setFilterAllMeta] = useState<boolean>(false);
 
-  const isOnScreen = useOnScreen(filterRef);
+  const isOnScreen = useOnScreen(filterRef, true);
 
   // Firebase stuff
   useEffect(() => {
@@ -173,16 +172,18 @@ export default function Home(props: Props) {
           setFilterAllMeta={(bool) => setFilterAllMeta(bool)}
         />
         <div className='flex flex-wrap gap-4 justify-center xl:mx-24 lg:mx-14 md:mx-8 mx-4 mb-8'>
-          {images.map((imageCard, index) => <ArtCard imgCard={imageCard} key={index} />)}
+          {images.map((imageCard, index) => <ArtCard imgCard={imageCard} key={index} priority={index < 4} />)}
         </div>
-        <button className={
-          'shadow-md shadow-zinc-700 transform transition-all ease-in-out duration-500 fixed mx-4 mb-4 bottom-0 right-0 w-16 h-16 bg-blue-500 rounded-full flex justify-center items-center z-50' + " "
-          + (isOnScreen ? "translate-y-32" : "translate-y-0")
-        } onClick={() => window.scroll({top: 0})}>
-          <span className='text-white h-8 w-8'>
-            <ArrowUpIcon />
-          </span>
-        </button>
+        <div className='fixed mx-4 mb-4 bottom-0 right-0 h-16 w-16 drop-shadow-2xl z-50'>
+          <button className={
+            'shadow-2xl shadow-black transform transition-all ease-in-out duration-500 w-full h-full bg-blue-500 rounded-full flex justify-center items-center z-50' + " "
+            + (isOnScreen ? "translate-y-32" : "translate-y-0")
+          } onClick={() => window.scroll({ top: 0 })}>
+            <span className='text-white h-8 w-8'>
+              <ArrowUpIcon />
+            </span>
+          </button>
+        </div>
       </div>
     </>
   );

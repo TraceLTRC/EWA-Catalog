@@ -2,7 +2,7 @@ import { ImageCard } from "../types/imageTypes"
 import Image from "next/image"
 import { useState } from "react"
 
-export default function ArtCard({ imgCard }: { imgCard: ImageCard }) {
+export default function ArtCard({ imgCard, priority }: { imgCard: ImageCard, priority: boolean }) {
     const [isLoading, setLoading] = useState(true);
 
     const onClickImage = (src: string) => {
@@ -17,7 +17,12 @@ export default function ArtCard({ imgCard }: { imgCard: ImageCard }) {
                     <Image src={imgCard.link} alt={imgCard.meta.join(', ')} fill style={{
                         "objectFit": "contain",
                     }}
-                        onLoadingComplete={() => setLoading(false)} sizes="310px"
+                        onLoadingComplete={() => setLoading(false)} sizes="
+                        (max-width: 684px) 80vw,
+                        (max-width: 768px) 50vw,
+                        (max-width: 1110px) 33vw,
+                        25vw
+                        " priority={priority}
                     />
                     {
                         isLoading ?

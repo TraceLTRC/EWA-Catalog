@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from "react";
 
-export default function useOnScreen(ref: RefObject<HTMLElement>) {
-    const [isIntersecting, setIntersecting] = useState(false);
+export default function useOnScreen(ref: RefObject<HTMLElement>, defBool: boolean) {
+    const [isIntersecting, setIntersecting] = useState(defBool);
     const obverserRef = useRef<IntersectionObserver | null>(null);
 
     useEffect(() => {
