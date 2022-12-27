@@ -5,7 +5,7 @@ export default function Header() {
     return(
         <header className="px-24 pt-8 pb-4">
             <div className="flex flex-col items-center">
-                <Image src={logo} alt="EWA logo" style={{"mixBlendMode": "darken"}} height={124}/>
+                <Image src={logo} alt="EWA logo" height={124}/>
                 <p className="tracking-wide font-extralight text-2xl md:text-4xl">Catalog</p>
             </div>
         </header>

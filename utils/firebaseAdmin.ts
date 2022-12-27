@@ -1,6 +1,6 @@
 import * as admin from "firebase-admin"
 
-if (admin.app.length <= 1) {
+if (!admin.app.length) {
     try {
         admin.initializeApp({
             credential: admin.credential.cert({
@@ -12,6 +12,7 @@ if (admin.app.length <= 1) {
         })
     } catch (e) {
         console.error("Unable to initialize app!");
+        console.log(e)
     }
 }
 

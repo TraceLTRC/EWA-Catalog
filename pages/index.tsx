@@ -1,15 +1,15 @@
 import ArtCard from '../components/ArtCard'
 import Header from '../components/Header';
 import { ImageCard, ImageCfg } from '../types/imageTypes';
-import { getDocs, limit, orderBy, Primitive, query } from 'firebase/firestore';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { Primitive } from 'firebase/firestore';
 import Head from 'next/head';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Filter from '../components/Filter';
 import createFirebaseApp from '../utils/firebaseClient';
-import { getPerformance } from 'firebase/performance';
-import { getAnalytics } from 'firebase/analytics';
 import admin from '../utils/firebaseAdmin';
+import useOnScreen from '../hooks/useOnScreen';
+import { ArrowLongUpIcon } from '@heroicons/react/24/solid'
+import { ArrowUpIcon } from '@heroicons/react/20/solid';
 
 type Props = {
   allImages: Array<ImageCard>;
@@ -85,6 +85,8 @@ function arraysEqualAny<T extends Primitive>(a: T[], b: T[]) {
 export default function Home(props: Props) {
   const { allImages, allArtists, allCharacters, allMetas } = props;
 
+  const filterRef = useRef<HTMLDivElement>(null);
+
   const [images, setImages] = useState<Array<ImageCard>>(allImages)
   const [artistFilter, setArtistFilter] = useState<Array<string>>([]);
   const [characterFilter, setCharacterFilter] = useState<Array<string>>([]);
@@ -94,11 +96,11 @@ export default function Home(props: Props) {
   const [isFilterAllChar, setFilterAllChar] = useState<boolean>(false);
   const [isFilterAllMeta, setFilterAllMeta] = useState<boolean>(false);
 
+  const isOnScreen = useOnScreen(filterRef);
+
   // Firebase stuff
   useEffect(() => {
     const app = createFirebaseApp();
-    const perf = getPerformance(app);
-    const analytics = getAnalytics(app);
 
     console.log("We are logging the performance and analytics of the website! Please keep that in mind. Thank you!")
   }, [])
@@ -106,30 +108,30 @@ export default function Home(props: Props) {
   useEffect(() => {
     function filterArtists(imagesToFilter: ImageCard[]) {
       if (artistFilter.length == 0) return imagesToFilter;
-  
+
       if (isFilterAllArtist) {
         return imagesToFilter.filter((img) => arraysEqualAll(img.artists, artistFilter));
-      }  else {
+      } else {
         return imagesToFilter.filter((img) => arraysEqualAny(img.artists, artistFilter))
       }
     }
-  
+
     function filterChars(imagesToFilter: ImageCard[]) {
       if (characterFilter.length == 0) return imagesToFilter;
-  
+
       if (isFilterAllChar) {
         return imagesToFilter.filter((img) => arraysEqualAll(img.characters, characterFilter));
-      }  else {
+      } else {
         return imagesToFilter.filter((img) => arraysEqualAny(img.characters, characterFilter))
       }
     }
-  
+
     function filterMetas(imagesToFilter: ImageCard[]) {
       if (metaFilter.length == 0) return imagesToFilter;
-  
+
       if (isFilterAllMeta) {
         return imagesToFilter.filter((img) => arraysEqualAll(img.meta, metaFilter));
-      }  else {
+      } else {
         return imagesToFilter.filter((img) => arraysEqualAny(img.meta, metaFilter))
       }
     }
@@ -151,27 +153,36 @@ export default function Home(props: Props) {
         <meta name="author" content="TraceL" />
       </Head>
       <div className='min-h-screen w-screen bg-gray-50'>
-        <Header/>
-        <Filter 
-        allArtist={allArtists}
-        allChar={allCharacters}
-        allMeta={allMetas}
-        currArtist={artistFilter}
-        currChar={characterFilter}
-        currMeta={metaFilter}
-        setArtist={(artist) => setArtistFilter(artist)}
-        setChar={(char) => setCharacterFilter(char)}
-        setMeta={(meta) => setMetaFilter(meta)}
-        filterAllArtist={isFilterAllArtist}
-        filterAllChar={isFilterAllChar}
-        filterAllMeta={isFilterAllMeta}
-        setFilterAllArtist={(bool) => setFilterAllArtist(bool)}
-        setFilterAllChar={(bool) => setFilterAllChar(bool)}
-        setFilterAllMeta={(bool) => setFilterAllMeta(bool)}
+        <Header />
+        <Filter
+          ref={filterRef}
+          allArtist={allArtists}
+          allChar={allCharacters}
+          allMeta={allMetas}
+          currArtist={artistFilter}
+          currChar={characterFilter}
+          currMeta={metaFilter}
+          setArtist={(artist) => setArtistFilter(artist)}
+          setChar={(char) => setCharacterFilter(char)}
+          setMeta={(meta) => setMetaFilter(meta)}
+          filterAllArtist={isFilterAllArtist}
+          filterAllChar={isFilterAllChar}
+          filterAllMeta={isFilterAllMeta}
+          setFilterAllArtist={(bool) => setFilterAllArtist(bool)}
+          setFilterAllChar={(bool) => setFilterAllChar(bool)}
+          setFilterAllMeta={(bool) => setFilterAllMeta(bool)}
         />
         <div className='flex flex-wrap gap-4 justify-center xl:mx-24 lg:mx-14 md:mx-8 mx-4 mb-8'>
           {images.map((imageCard, index) => <ArtCard imgCard={imageCard} key={index} />)}
         </div>
+        <button className={
+          'shadow-md shadow-zinc-700 transform transition-all ease-in-out duration-500 fixed mx-4 mb-4 bottom-0 right-0 w-16 h-16 bg-blue-500 rounded-full flex justify-center items-center z-50' + " "
+          + (isOnScreen ? "translate-y-32" : "translate-y-0")
+        } onClick={() => window.scroll({top: 0})}>
+          <span className='text-white h-8 w-8'>
+            <ArrowUpIcon />
+          </span>
+        </button>
       </div>
     </>
   );

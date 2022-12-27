@@ -1,5 +1,4 @@
 import { FirebaseOptions, getApps, initializeApp } from 'firebase/app'
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 import { getAnalytics } from 'firebase/analytics'
 import { getPerformance } from 'firebase/performance'
 
@@ -20,10 +19,6 @@ export default function createFirebaseApp() {
         if (typeof window !== 'undefined') {
             getAnalytics();
             getPerformance();
-            const appCheck = initializeAppCheck(app, {
-                provider: new ReCaptchaV3Provider(process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY as string),
-                isTokenAutoRefreshEnabled: true,
-            })
         }
 
         return app;
