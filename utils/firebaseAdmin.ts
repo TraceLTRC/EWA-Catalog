@@ -1,13 +1,21 @@
+type EnvKey = {
+    privateKey: string;
+}
+
 import * as admin from "firebase-admin"
 
-console.log(admin.app.length)
-
 if (admin.app.length <= 1) {
+    const unparsedKey = process.env.FIREBASE_PRIVATE_KEY
+
+    if (typeof unparsedKey === 'undefined') throw "Firebase's private key undefined!"
+
+    const { privateKey } = JSON.parse(unparsedKey) as EnvKey
+
     try {
         admin.initializeApp({
             credential: admin.credential.cert({
                 clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                privateKey: process.env.FIREBASE_PRIVATE_KEY,
+                privateKey: privateKey,
                 projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
             }),
             storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
