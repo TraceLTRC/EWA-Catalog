@@ -30,7 +30,7 @@ export async function getStaticProps() {
     const data: ImageCfg = doc.data() as ImageCfg
     const [imgLink] = await imageBucket.file(data.blob).getSignedUrl({
       action: 'read',
-      expires: Date.now() + (86400 * 1000),
+      expires: '03-09-2491',
     })
 
     allImages.push({
