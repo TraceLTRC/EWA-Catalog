@@ -45,6 +45,8 @@ export async function getStaticProps() {
     data.meta.forEach((meta) => metas.add(meta));
   }))
 
+  console.log("Executed getStaticProps!");
+
   return {
     props: {
       allImages: allImages,
